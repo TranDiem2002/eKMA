@@ -1,12 +1,8 @@
 package com.tutofox.eKMA.Repository;
 
 import com.tutofox.eKMA.Entity.LopHocEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
-
-public interface LopHocRepository {
-
-    List<LopHocEntity> getAllByMaSV(String maSV);
-
+public interface LopHocRepository extends JpaRepository<LopHocEntity, String> {
 
 }

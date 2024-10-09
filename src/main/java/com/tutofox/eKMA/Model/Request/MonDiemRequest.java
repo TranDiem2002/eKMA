@@ -1,4 +1,4 @@
-package com.tutofox.eKMA.Model.Response;
+package com.tutofox.eKMA.Model.Request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,9 +11,9 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class DiemDetailModel {
+public class MonDiemRequest {
 
-    private double gpa;
-    private String xeploai;
-    private List<DiemNamHocModel> diemNamHocModels;
+    private int monhocID;
+
+    private List<SinhVienDiemRequest> sinhVienDiemRequests;
 }

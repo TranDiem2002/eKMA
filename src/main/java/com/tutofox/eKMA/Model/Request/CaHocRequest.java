@@ -1,8 +1,7 @@
-package com.tutofox.eKMA.Model.Response;
+package com.tutofox.eKMA.Model.Request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
@@ -10,10 +9,7 @@ import java.util.Date;
 @Setter
 @Getter
 @AllArgsConstructor
-@NoArgsConstructor
-public class CaHocModel {
-
-    private int cahoc;
+public class CaHocRequest {
 
     private Date startDate;
 

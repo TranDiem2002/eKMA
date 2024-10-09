@@ -6,7 +6,7 @@ import com.tutofox.eKMA.Model.Request.AuthenticationRequest;
 import com.tutofox.eKMA.Model.Request.RegisterRequest;
 import com.tutofox.eKMA.Model.Response.AuthenticationResponse;
 import com.tutofox.eKMA.Repository.RepositoryCustomer.TokenCustomerRepository;
-import com.tutofox.eKMA.Repository.SinhVienRepository;
+import com.tutofox.eKMA.Repository.RepositoryCustomer.SinhVienCustomerRepository;
 import com.tutofox.eKMA.Repository.TokenRepository;
 import com.tutofox.eKMA.Repository.UserRepository;
 import com.tutofox.eKMA.util.SinhVienMapper;
@@ -17,7 +17,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SinhVienServiceDetail {
@@ -26,7 +29,7 @@ public class SinhVienServiceDetail {
     private UserRepository userRepository;
 
     @Autowired
-    private SinhVienRepository sinhVienRepository;
+    private SinhVienCustomerRepository sinhVienCustomerRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -45,19 +48,36 @@ public class SinhVienServiceDetail {
 
     private SinhVienMapper sinhVienMapper;
 
-    public SinhVienServiceDetail(SinhVienRepository sinhVienRepository) {
-        this.sinhVienRepository = sinhVienRepository;
+    public SinhVienServiceDetail(SinhVienCustomerRepository sinhVienCustomerRepository) {
+        this.sinhVienCustomerRepository = sinhVienCustomerRepository;
         this.sinhVienMapper = new SinhVienMapper();
     }
 
     public String register(RegisterRequest request) {
-
+        Optional<SinhVienEntity> sinhVien = userRepository.findById(request.getMaSV());
+        if(sinhVien.isPresent())
+            return request.getMaSV() + " đã tồn tại";
         SinhVienEntity user = sinhVienMapper.converttoSinhVienEntity(request);
         user.setPassWord(passwordEncoder.encode(request.getPassWord()));
         user.setRole(Role.USER);
         userRepository.save(user);
         var jwtToken = jwtService.generateToken(user);
         return "đã add user thành công";
+    }
+
+    public List<SinhVienEntity> addSV(List<RegisterRequest> registerRequest, LopCQEntity lophoc) {
+        List<SinhVienEntity> sinhVienEntities = new ArrayList<>();
+
+        for(RegisterRequest request: registerRequest){
+            SinhVienEntity user = sinhVienMapper.converttoSinhVienEntity(request);
+            user.setPassWord(passwordEncoder.encode(request.getPassWord()));
+            user.setRole(Role.USER);
+            user.setLopCQId(lophoc);
+            userRepository.save(user);
+            var jwtToken = jwtService.generateToken(user);
+            sinhVienEntities.add(user);
+        }
+        return sinhVienEntities;
     }
 
     public AuthenticationResponse authentication(AuthenticationRequest request) {

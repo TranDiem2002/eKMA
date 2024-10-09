@@ -15,11 +15,15 @@ public class SinhVienDetailModel {
 
     private String hoTen;
 
-    private String gioiTinh;
+    private String email;
 
-    private String lopCQId;
+    private String phone;
+
+    private String ngaySinh;
+
+    private String lopCQ;
 
     private String he;
 
-    private  String truong;
+    private  String khoa;
 }

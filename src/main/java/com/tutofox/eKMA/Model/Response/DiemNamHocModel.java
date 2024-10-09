@@ -5,20 +5,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
 @Getter
-public class LichHocModel {
+public class DiemNamHocModel {
 
-    private String date;
+    private String namhoc;
 
-    private String startDate;
-
-    private String endDate;
-
-    private String description;
-
+    private Double diemtb;
 }
